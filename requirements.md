@@ -90,7 +90,7 @@ flowchart LR
    A --> UC_PieChart
    A --> UC_Withdraw
 
-  %% 管理者の関係（先生の指摘を反映）
+  %% 管理者の関係
    B --> UC_Login
    B --> UC_Logout
    B --> UC_PwReset
