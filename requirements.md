@@ -75,21 +75,24 @@ usecaseDiagram
     (ユーザー一覧) as UC_AdminList
   }
 
-  User --> UC_Login
-  User --> UC_Logout
-  User --> UC_Signup
-  User --> UC_PwReset
+  %% 利用者
+   User --> UC_Login
+   User --> UC_Logout
+   User --> UC_Signup
+   User --> UC_PwReset
+   User --> UC_Create
+   User --> UC_Update
+   User --> UC_Delete
+   User --> UC_List
+   User --> UC_Aggregate
+   User --> UC_Goal
+   User --> UC_Progress
+   User --> UC_PieChart
+   User --> UC_Withdraw
 
-  User --> UC_Create
-  User --> UC_Update
-  User --> UC_Delete
-  User --> UC_List
-  User --> UC_Aggregate
-  User --> UC_Goal
-  User --> UC_Progress
-  User --> UC_PieChart
-
-  User --> UC_Withdraw
-
-  Admin --> UC_Login
-  Admin --> UC_AdminList
+  %% 管理者
+   Admin --> UC_Login
+   Admin --> UC_Logout
+   Admin --> UC_PwReset
+   Admin --> UC_AdminList
+```
