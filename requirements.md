@@ -52,47 +52,47 @@
 ## ユースケース図
 
 ```mermaid
-usecaseDiagram
-  actor User as 利用者
-  actor Admin as 管理者
+flowchart LR
+  %% アクター（システム外）
+  A[利用者]:::actor
+  B[管理者]:::actor
 
-  rectangle 家計簿アプリ {
-    (ログイン) as UC_Login
-    (ログアウト) as UC_Logout
-    (新規登録) as UC_Signup
-    (パスワードリセット) as UC_PwReset
+  %% システム境界
+  subgraph S[家計簿アプリ]
+    UC_Login([ログイン])
+    UC_Logout([ログアウト])
+    UC_Signup([新規登録])
+    UC_PwReset([パスワードリセット])
+    UC_Create([収支入力])
+    UC_Update([収支編集])
+    UC_Delete([収支削除])
+    UC_List([収支一覧])
+    UC_Aggregate([収支集計])
+    UC_Goal([目標設定])
+    UC_Progress([目標達成確認])
+    UC_PieChart([収支円グラフ表示])
+    UC_Withdraw([退会])
+    UC_AdminList([ユーザー一覧])
+  end
 
-    (収支入力) as UC_Create
-    (収支編集) as UC_Update
-    (収支削除) as UC_Delete
-    (収支一覧) as UC_List
-    (収支集計) as UC_Aggregate
-    (目標設定) as UC_Goal
-    (目標達成確認) as UC_Progress
-    (収支円グラフ表示) as UC_PieChart
+  %% 利用者の関係
+   A --> UC_Login
+   A --> UC_Logout
+   A --> UC_Signup
+   A --> UC_PwReset
+   A --> UC_Create
+   A --> UC_Update
+   A --> UC_Delete
+   A --> UC_List
+   A --> UC_Aggregate
+   A --> UC_Goal
+   A --> UC_Progress
+   A --> UC_PieChart
+   A --> UC_Withdraw
 
-    (退会) as UC_Withdraw
-    (ユーザー一覧) as UC_AdminList
-  }
-
-  %% 利用者
-   User --> UC_Login
-   User --> UC_Logout
-   User --> UC_Signup
-   User --> UC_PwReset
-   User --> UC_Create
-   User --> UC_Update
-   User --> UC_Delete
-   User --> UC_List
-   User --> UC_Aggregate
-   User --> UC_Goal
-   User --> UC_Progress
-   User --> UC_PieChart
-   User --> UC_Withdraw
-
-  %% 管理者
-   Admin --> UC_Login
-   Admin --> UC_Logout
-   Admin --> UC_PwReset
-   Admin --> UC_AdminList
+  %% 管理者の関係（先生の指摘を反映）
+   B --> UC_Login
+   B --> UC_Logout
+   B --> UC_PwReset
+   B --> UC_AdminList
 ```
