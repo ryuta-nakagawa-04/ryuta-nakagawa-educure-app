@@ -96,3 +96,5 @@ flowchart LR
    B --> UC_PwReset
    B --> UC_AdminList
 ```
+  %% 見た目
+   classDef actor fill:#eee,stroke:#888,rx:6,ry:6;
