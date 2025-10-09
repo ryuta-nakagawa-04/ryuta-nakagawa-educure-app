@@ -59,42 +59,63 @@ flowchart LR
 
   %% システム境界
   subgraph S[家計簿アプリ]
+    %% 共通（認証系）
+    UC_Signup([新規登録])
     UC_Login([ログイン])
     UC_Logout([ログアウト])
-    UC_Signup([新規登録])
     UC_PwReset([パスワードリセット])
+    UC_Withdraw([退会])
+
+    %% 収支（transactions）
     UC_Create([収支入力])
     UC_Update([収支編集])
     UC_Delete([収支削除])
     UC_List([収支一覧])
     UC_Aggregate([収支集計])
+    UC_PieChart([収支円グラフ表示])
+
+    %% 目標（goals）
     UC_Goal([目標設定])
     UC_Progress([目標達成確認])
-    UC_PieChart([収支円グラフ表示])
-    UC_Withdraw([退会])
+
+    %% カテゴリ（categories）
+    UC_CatCreate([カテゴリ追加])
+    UC_CatUpdate([カテゴリ編集])
+    UC_CatDelete([カテゴリ削除])
+    UC_CatList([カテゴリ一覧])
+
+    %% 管理者機能
     UC_AdminList([ユーザー一覧])
   end
 
   %% 利用者の関係
-   A --> UC_Login
-   A --> UC_Logout
-   A --> UC_Signup
-   A --> UC_PwReset
-   A --> UC_Create
-   A --> UC_Update
-   A --> UC_Delete
-   A --> UC_List
-   A --> UC_Aggregate
-   A --> UC_Goal
-   A --> UC_Progress
-   A --> UC_PieChart
-   A --> UC_Withdraw
+  A --> UC_Signup
+  A --> UC_Login
+  A --> UC_Logout
+  A --> UC_PwReset
+  A --> UC_Withdraw
 
-  %% 管理者の関係
-   B --> UC_Login
-   B --> UC_Logout
-   B --> UC_PwReset
-   B --> UC_AdminList
+  A --> UC_Create
+  A --> UC_Update
+  A --> UC_Delete
+  A --> UC_List
+  A --> UC_Aggregate
+  A --> UC_PieChart
+
+  A --> UC_Goal
+  A --> UC_Progress
+
+  %% カテゴリ（利用者操作）
+  A --> UC_CatCreate
+  A --> UC_CatUpdate
+  A --> UC_CatDelete
+  A --> UC_CatList
+
+  %% 管理者の関係（is_admin = true のユーザー）
+  B --> UC_Login
+  B --> UC_Logout
+  B --> UC_PwReset
+  B --> UC_AdminList
 ```
   %% 見た目
    classDef actor fill:#eee,stroke:#888,rx:6,ry:6;
