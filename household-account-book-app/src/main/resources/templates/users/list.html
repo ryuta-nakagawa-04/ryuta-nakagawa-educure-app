@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ja">
+<head>
+  <meta charset="UTF-8"><title>ユーザー管理</title>
+</head>
+<body>
+<h1>ユーザー管理</h1>
+
+<section>
+  <h2>新規登録</h2>
+  <form th:action="@{/users}" method="post" th:object="${form}">
+    <input type="text" th:field="*{userName}" placeholder="ユーザー名">
+    <input type="email" th:field="*{email}" placeholder="メールアドレス">
+    <input type="password" th:field="*{password}" placeholder="パスワード">
+    <button type="submit">登録</button>
+    <p th:if="${#fields.hasErrors('*')}" th:errors="*{*}"></p>
+  </form>
+</section>
+
+<hr>
+
+<section>
+  <h2>登録済みユーザー</h2>
+  <table border="1">
+    <tr><th>ID</th><th>ユーザー名</th><th>メール</th><th>操作</th></tr>
+    <tr th:each="u : ${users}">
+      <td th:text="${u.id}"></td>
+      <td th:text="${u.userName}"></td>
+      <td th:text="${u.email}"></td>
+      <td>
+        <form th:action="@{|/users/${u.id}/delete|}" method="post" style="display:inline">
+          <button type="submit" onclick="return confirm('削除しますか？')">削除</button>
+        </form>
+      </td>
+    </tr>
+  </table>
+</section>
+
+<p><a th:href="@{/}">← 家計簿トップへ</a></p>
+</body>
+</html>

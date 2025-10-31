@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- パス: src/main/resources/mappers/UserMapper.xml -->
+<mapper namespace="jp.educure.household_account_book_app.repository.mapper.UserMapper">
+
+  <!-- 管理者の人数（退会ユーザーは除外） -->
+  <select id="countAdmins" resultType="int">
+    SELECT COUNT(*)
+    FROM users
+    WHERE is_admin = TRUE
+      AND deleted  = FALSE
+  </select>
+
+  <!-- 追加（自動採番で id を返す） -->
+  <insert id="insert"
+          parameterType="jp.educure.household_account_book_app.entity.User"
+          useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO users (
+      user_name, email, password, is_admin, deleted, created_at, updated_at
+    )
+    VALUES (
+      #{userName}, #{email}, #{password}, #{admin}, #{deleted}, NOW(), NOW()
+    )
+  </insert>
+
+  <!-- 一覧（退会ユーザーを除外）: インターフェイスが findAll() の想定 -->
+  <select id="findAll"
+          resultType="jp.educure.household_account_book_app.entity.User">
+    SELECT
+      id,
+      user_name,
+      email,
+      password,
+      is_admin AS admin,
+      deleted,
+      created_at,
+      updated_at
+    FROM users
+    WHERE deleted = FALSE
+    ORDER BY id
+  </select>
+
+  <!-- 予備：findAllActive() を使う場合はこちらを呼ぶ（内容は findAll と同じ） -->
+  <select id="findAllActive"
+          resultType="jp.educure.household_account_book_app.entity.User">
+    SELECT
+      id,
+      user_name,
+      email,
+      password,
+      is_admin AS admin,
+      deleted,
+      created_at,
+      updated_at
+    FROM users
+    WHERE deleted = FALSE
+    ORDER BY id
+  </select>
+
+  <!-- user_name で1件（退会者は取得しない＝ログイン不可） -->
+  <select id="findByUserName"
+          resultType="jp.educure.household_account_book_app.entity.User">
+    SELECT
+      id,
+      user_name,
+      email,
+      password,
+      is_admin AS admin,
+      deleted,
+      created_at,
+      updated_at
+    FROM users
+    WHERE user_name = #{userName}
+      AND deleted   = FALSE
+    LIMIT 1
+  </select>
+
+  <!-- id で1件（用途に応じて退会者も拾う。除外したいなら AND deleted = FALSE を追加） -->
+  <select id="findById"
+          resultType="jp.educure.household_account_book_app.entity.User">
+    SELECT
+      id,
+      user_name,
+      email,
+      password,
+      is_admin AS admin,
+      deleted,
+      created_at,
+      updated_at
+    FROM users
+    WHERE id = #{id}
+    LIMIT 1
+  </select>
+
+  <!-- パスワード更新（未退会のみ更新） -->
+  <update id="updatePassword">
+    UPDATE users
+       SET password   = #{password},
+           updated_at = NOW()
+     WHERE id = #{id}
+       AND deleted = FALSE
+  </update>
+
+  <!-- 退会処理（deleted = TRUE） -->
+  <update id="markDeleted">
+    UPDATE users
+       SET deleted    = TRUE,
+           updated_at = NOW()
+     WHERE id = #{id}
+       AND deleted = FALSE
+  </update>
+
+</mapper>

@@ -1,0 +1,75 @@
+.info-message {
+  background-color: #eef9ff;
+  border: 1px solid #33aaff;
+  border-radius: 6px;
+  color: #000;
+  padding: 10px 12px;
+  font-size: 0.9rem;
+  text-align: center;
+  margin: 0 auto 16px;
+  max-width: 400px;
+}
+
+/* ページ専用のスコープ（他CSSと衝突しないように） */
+body.page-transactions {
+  background: #fff;
+  color: #000;
+  margin: 0;
+  padding: 0;
+}
+
+/* 中央寄せコンテナ */
+.container {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+/* 見出しは中央揃え */
+.container h1 {
+  text-align: center;
+  margin: 0 0 12px;
+}
+
+/* 上部の「追加する」ボタンを右寄せ */
+.actions-top {
+  text-align: right;
+  margin: 8px 0 12px;
+}
+
+/* テーブルはデフォルト風：黒線・黒文字 */
+table {
+  margin: 0 auto;               /* テーブル自体を中央寄せ */
+  border-collapse: collapse;
+}
+
+table, th, td {
+  border: 1px solid #000;
+}
+
+th, td {
+  padding: 6px 10px;
+}
+
+/* 編集/削除ボタンなどの見た目（黒枠・透明） */
+.btn-outline {
+  display: inline-block;
+  padding: 6px 12px;
+  border: 1px solid #000;
+  background: transparent;
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* 行内フォームのレイアウト微調整 */
+.inline {
+  display: inline;
+  margin-left: 6px;
+}
+
+/* 下部の戻るボタンは中央に */
+.actions-bottom {
+  text-align: center;
+  margin-top: 16px;
+}

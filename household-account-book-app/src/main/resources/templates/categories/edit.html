@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>カテゴリ編集</title>
+  <link rel="stylesheet" th:href="@{/css/categories-common.css}">
+</head>
+<body class="category-page">
+
+  <h1 class="page-title">カテゴリ編集</h1>
+
+  <form th:action="@{/categories/edit}"
+        th:object="${form}"
+        method="post"
+        class="category-form">
+
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+    <!-- 編集前のカテゴリ -->
+    <div class="form-group">
+      <label for="beforeName" class="form-label">編集前のカテゴリ</label>
+      <input id="beforeName"
+             type="text"
+             th:field="*{beforeName}"
+             placeholder="例：食費"
+             class="form-input">
+      <div class="error-text"
+           th:if="${#fields.hasErrors('beforeName')}"
+           th:errors="*{beforeName}"></div>
+    </div>
+
+    <!-- 編集後のカテゴリ -->
+    <div class="form-group">
+      <label for="name" class="form-label">編集後のカテゴリ</label>
+      <input id="name"
+             type="text"
+             th:field="*{name}"
+             placeholder="例：外食費"
+             class="form-input">
+      <div class="error-text"
+           th:if="${#fields.hasErrors('name')}"
+           th:errors="*{name}"></div>
+    </div>
+
+    <div class="button-col">
+      <button type="submit" class="btn-primary">編集する</button>
+      <a th:href="@{/settings}" class="btn-outline">設定画面に戻る</a>
+    </div>
+  </form>
+
+</body>
+</html>

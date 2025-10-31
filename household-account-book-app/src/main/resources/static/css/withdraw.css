@@ -1,0 +1,83 @@
+:root{
+  --sky:#0ea5e9;
+  --ink:#000;
+  --bg:#f9f9f9;
+  --card:#fff;
+}
+
+html,body{
+  margin:0;
+  padding:0;
+  color:var(--ink);
+  background:var(--bg);
+}
+
+/* 中央にカード風の箱 */
+.wrap{
+  max-width:600px;
+  margin:60px auto;
+  background:var(--card);
+  padding:32px 24px;
+  text-align:center; /* 見出し・本文とも中央揃え */
+  border:1px solid #000; /* 黒の枠 */
+  border-radius:12px;
+  box-shadow:0 4px 12px rgba(0,0,0,.06);
+}
+
+h1{
+  margin:0 0 16px;
+  font-size:1.6rem;
+}
+
+p{
+  margin:0 0 8px;
+  line-height:1.8;
+}
+
+.actions{
+  margin-top:20px;
+  display:flex;
+  justify-content:center;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+/* 水色のアウトラインボタン（はい／いいえ） */
+.btn-outline-sky{
+  display:inline-block;
+  padding:.7em 1.4em;
+  border:2px solid var(--sky);
+  color:var(--sky);
+  background:transparent;
+  border-radius:8px;
+  text-decoration:none;
+  font-weight:700;
+  cursor:pointer;
+  transition:background .15s ease-in-out;
+}
+
+.btn-outline-sky:hover,
+.btn-outline-sky:focus{
+  background:#e0f2fe;
+  outline:none;
+}
+
+/* button要素の見た目をリンクと揃える */
+button.btn-outline-sky{
+  font:inherit;
+}
+
+/* 退会処理後フォーム
+　　画面中央寄せ（縦横） */
+.center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh; /* 画面中央に見せるため */
+}
+
+/* テキスト中央寄せ */
+.ta-center {
+  text-align: center;
+}
+

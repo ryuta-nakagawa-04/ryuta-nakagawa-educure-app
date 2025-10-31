@@ -1,0 +1,27 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ja">
+<head>
+  <meta charset="utf-8">
+  <title>退会フォーム</title>
+  <link rel="stylesheet" th:href="@{/css/withdraw.css}">
+</head>
+<body>
+  <div class="wrap">
+    <h1>退会フォーム</h1>
+
+    <p>本当に退会しますか？</p>
+    <p>退会後は取り消しができません。</p>
+
+    <div class="actions">
+      <!-- はい（POSTで退会実行） -->
+      <form th:action="@{/users/withdraw}" method="post">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+        <button type="submit" class="btn-outline-sky">はい</button>
+      </form>
+
+      <!-- いいえ（設定画面へ戻る） -->
+      <a th:href="@{/settings}" class="btn-outline-sky">いいえ</a>
+    </div>
+  </div>
+</body>
+</html>

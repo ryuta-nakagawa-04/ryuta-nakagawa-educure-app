@@ -1,0 +1,58 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ja">
+<head>
+  <meta charset="utf-8">
+  <title>収支一覧</title>
+  <link rel="stylesheet" th:href="@{/css/transactions.css}">
+</head>
+<body class="page-transactions">
+  <div class="container">
+    <h1>収支一覧ページ</h1>
+
+    <!-- 収支が登録された場合のメッセージ -->
+    <div th:if="${flashMessage != null and !#strings.isEmpty(flashMessage)}"
+        class="info-message">
+      <span th:text="${flashMessage}">メッセージ</span>
+    </div>
+
+    <!-- 追加する（右寄せボタン） -->
+    <div class="actions-top">
+      <a th:href="@{/transactions/new}" class="btn-outline">追加する</a>
+    </div>
+
+    <!-- 一覧テーブル（黒線・黒文字のデフォルト） -->
+    <table>
+      <thead>
+        <tr>
+          <th>日付</th>
+          <th>カテゴリ</th>
+          <th>メモ</th>
+          <th>金額</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="t : ${transactions}">
+          <td th:text="${#temporals.format(t.txnDate, 'MM/dd')}">09/01</td>
+          <td th:text="${t.categoryName}">食費</td>
+          <td th:text="${t.memo}">ランチ</td>
+          <td th:text="${#numbers.formatInteger(t.amount, 0, 'COMMA') + '円'}">1,000円</td>
+          <td>
+            <a th:href="@{|/transactions/${t.id}/edit|}" class="btn-outline">編集</a>
+            <form th:action="@{|/transactions/${t.id}/delete|}" method="post" class="inline"
+                  onsubmit="return confirm('削除しますか？');">
+              <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+              <button type="submit" class="btn-outline">削除</button>
+            </form>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- 下部：ダッシュボードへ戻る（黒枠ボタン、中央） -->
+    <div class="actions-bottom">
+      <a th:href="@{/dashboard}" class="btn-outline">ダッシュボードページに戻る</a>
+    </div>
+  </div>
+</body>
+</html>

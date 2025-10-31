@@ -1,0 +1,56 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ja">
+<head>
+  <meta charset="utf-8">
+  <title>目標設定画面</title>
+  <link rel="stylesheet" th:href="@{/css/goals.css}">
+</head>
+<body class="goal-page">
+
+  <div class="goal-card">
+
+    <h1 class="page-title">目標設定画面</h1>
+
+    <!-- 現在の目標表示 -->
+    <div class="current-target">
+      <span>目標収支金額（＋</span>
+      <span th:text="${currentTarget != null ? #numbers.formatInteger(currentTarget, 0, 'COMMA') : '未設定'}">未設定</span>
+      <span>円）</span>
+    </div>
+
+    <!-- フォーム開始 -->
+    <form th:action="@{/goals}" method="post" th:object="${goalForm}" class="goal-form">
+      <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+      <!-- ★ この位置に移動させる：フォームの内側ならOK -->
+      <div class="form-errors"
+           th:if="${#fields.hasErrors('*')}">
+        入力内容に不備があります。赤字の項目を確認してください。
+      </div>
+
+      <!-- 編集対象の年月を隠して送る -->
+      <input type="hidden" th:field="*{yearMonth}"/>
+
+      <!-- 入力項目: 目標収支金額 -->
+      <label for="targetAmount" class="form-label">目標収支金額（円）</label>
+      <input id="targetAmount"
+             type="number"
+             class="form-input"
+             th:field="*{targetAmount}"
+             placeholder="半角数字で入力">
+
+      <div class="error-text"
+           th:if="${#fields.hasErrors('targetAmount')}"
+           th:errors="*{targetAmount}">
+      </div>
+
+      <div class="button-col">
+        <button type="submit" class="btn-primary">設定する</button>
+        <a th:href="@{/dashboard}" class="btn-outline">ダッシュボードページに戻る</a>
+      </div>
+    </form>
+
+  </div>
+
+</body>
+</html>

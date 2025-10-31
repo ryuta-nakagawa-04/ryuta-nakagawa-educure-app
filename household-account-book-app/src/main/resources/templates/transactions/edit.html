@@ -1,0 +1,79 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ja">
+<head>
+  <meta charset="utf-8">
+  <title>収支編集</title>
+  <link rel="stylesheet" th:href="@{/css/transactions-edit.css}">
+</head>
+<body class="page-edit">
+
+  <div class="form-card">
+    <h1>収支編集</h1>
+
+    <form th:action="@{|/transactions/${id}|}"
+          method="post"
+          th:object="${form}"
+          class="edit-form">
+
+      <input type="hidden" th:field="*{direction}">
+
+      <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+      <!-- 日付 -->
+      <label class="form-label" for="txnDate">日付</label>
+      <input id="txnDate"
+             type="date"
+             th:field="*{txnDate}"
+             class="form-input">
+      <div class="error-text"
+           th:if="${#fields.hasErrors('txnDate')}"
+           th:errors="*{txnDate}"></div>
+
+      <!-- カテゴリ -->
+      <label class="form-label" for="categoryId">カテゴリ</label>
+      <select id="categoryId"
+              th:field="*{categoryId}"
+              class="form-input">
+        <option value="">選択してください</option>
+        <option th:each="c : ${categories}"
+                th:value="${c.id}"
+                th:text="${c.name}">
+        </option>
+      </select>
+      <div class="error-text"
+           th:if="${#fields.hasErrors('categoryId')}"
+           th:errors="*{categoryId}"></div>
+
+      <!-- メモ -->
+      <label class="form-label" for="memo">メモ</label>
+      <input id="memo"
+             type="text"
+             th:field="*{memo}"
+             class="form-input"
+             placeholder="メモを入力">
+      <div class="error-text"
+           th:if="${#fields.hasErrors('memo')}"
+           th:errors="*{memo}"></div>
+
+      <!-- 金額 -->
+      <label class="form-label" for="amount">金額</label>
+      <input id="amount"
+             type="number"
+             th:field="*{amount}"
+             class="form-input"
+             placeholder="半角数字で入力">
+      <div class="error-text"
+           th:if="${#fields.hasErrors('amount')}"
+           th:errors="*{amount}"></div>
+
+      <!-- ボタン2つ（縦並び） -->
+      <div class="button-col">
+        <button type="submit" class="btn-primary">編集する</button>
+        <a th:href="@{/transactions}" class="btn-outline-sky">収支一覧画面に戻る</a>
+      </div>
+
+    </form>
+  </div>
+
+</body>
+</html>

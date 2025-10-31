@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>カテゴリ削除</title>
+  <link rel="stylesheet" th:href="@{/css/categories-common.css}">
+</head>
+<body class="category-page">
+
+  <h1 class="page-title">カテゴリ削除</h1>
+
+  <form th:action="@{/categories/delete}"
+        th:object="${form}"
+        method="post"
+        class="category-form">
+
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+    <!-- 削除するカテゴリ -->
+    <div class="form-group">
+      <label for="beforeName" class="form-label">削除するカテゴリ</label>
+      <input id="beforeName"
+             type="text"
+             th:field="*{beforeName}"
+             placeholder="例：食費"
+             class="form-input">
+      <div class="error-text"
+           th:if="${#fields.hasErrors('beforeName')}"
+           th:errors="*{beforeName}"></div>
+    </div>
+
+    <div class="button-col">
+      <button type="submit" class="btn-primary">削除する</button>
+      <a th:href="@{/settings}" class="btn-outline">設定画面に戻る</a>
+    </div>
+  </form>
+
+</body>
+</html>

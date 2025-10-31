@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="jp.educure.household_account_book_app.repository.mapper.TransactionMapper">
+
+  <!-- ========================================================= -->
+  <!-- resultMap：DBのカラム名 → Javaフィールドの対応関係 -->
+  <!-- ========================================================= -->
+  <resultMap id="TxMap" type="jp.educure.household_account_book_app.entity.Transaction">
+    <id     property="id"           column="id" />
+    <result property="userId"       column="user_id" />
+    <result property="categoryId"   column="category_id" />
+    <result property="amount"       column="amount" />
+    <result property="txnDate"      column="txn_date" />
+    <result property="direction"    column="direction" />
+    <result property="memo"         column="memo" />
+    <result property="createdAt"    column="created_at" />
+    <result property="updatedAt"    column="updated_at" />
+    <result property="deletedAt"    column="deleted_at" />
+
+    <!-- ★カテゴリ名のマッピングを追加 -->
+    <result property="categoryName" column="category_name" />
+  </resultMap>
+
+  <!-- ========================================================= -->
+  <!-- 一覧取得：未削除の取引＋カテゴリ名 -->
+  <!-- ========================================================= -->
+  <select id="findAllActiveByUserId"
+          parameterType="int"
+          resultMap="TxMap">
+    SELECT
+      t.id,
+      t.user_id,
+      t.category_id,
+      t.amount,
+      t.txn_date,
+      t.direction,
+      t.memo,
+      t.created_at,
+      t.updated_at,
+      t.deleted_at,
+      c.name AS category_name        <!-- ← ここでcategory_nameを作る -->
+    FROM transactions t
+    LEFT JOIN categories c
+      ON t.category_id = c.id        <!-- ← JOINが必要 -->
+    WHERE t.user_id = #{userId}
+      AND t.deleted_at IS NULL
+    ORDER BY t.txn_date DESC, t.id DESC
+  </select>
+
+  <!-- ========================================================= -->
+  <!-- 1件取得（編集画面用）＋カテゴリ名 -->
+  <!-- ========================================================= -->
+  <select id="findByIdForUser"
+          parameterType="map"
+          resultMap="TxMap">
+    SELECT
+      t.id,
+      t.user_id,
+      t.category_id,
+      t.amount,
+      t.txn_date,
+      t.direction,
+      t.memo,
+      t.created_at,
+      t.updated_at,
+      t.deleted_at,
+      c.name AS category_name
+    FROM transactions t
+    LEFT JOIN categories c
+      ON t.category_id = c.id
+    WHERE t.id = #{id}
+      AND t.user_id = #{userId}
+      AND t.deleted_at IS NULL
+    LIMIT 1
+  </select>
+
+  <!-- ========================================================= -->
+  <!-- INSERT -->
+  <!-- ========================================================= -->
+  <insert id="insert"
+          parameterType="jp.educure.household_account_book_app.entity.Transaction"
+          useGeneratedKeys="true"
+          keyProperty="id">
+    INSERT INTO transactions
+      (user_id, category_id, amount, txn_date, direction, memo)
+    VALUES
+      (#{userId}, #{categoryId}, #{amount}, #{txnDate}, #{direction}, #{memo})
+  </insert>
+
+  <!-- ========================================================= -->
+  <!-- UPDATE -->
+  <!-- ========================================================= -->
+  <update id="update"
+          parameterType="jp.educure.household_account_book_app.entity.Transaction">
+    UPDATE transactions
+       SET category_id = #{categoryId},
+           amount      = #{amount},
+           txn_date    = #{txnDate},
+           direction   = #{direction},
+           memo        = #{memo},
+           updated_at  = now()
+     WHERE id = #{id}
+       AND user_id = #{userId}
+       AND deleted_at IS NULL
+  </update>
+
+  <!-- ========================================================= -->
+  <!-- SOFT DELETE -->
+  <!-- ========================================================= -->
+  <update id="softDelete"
+          parameterType="map">
+    UPDATE transactions
+       SET deleted_at = now(),
+           updated_at = now()
+     WHERE id = #{id}
+       AND user_id = #{userId}
+       AND deleted_at IS NULL
+  </update>
+
+  <select id="sumByCategoryForMonth"
+          parameterType="map"
+          resultType="jp.educure.household_account_book_app.dto.CategoryTotalRow">
+
+      SELECT
+          COALESCE(c.name, '未分類') AS category_name,
+          SUM(t.amount) AS total_amount
+      FROM transactions t
+      LEFT JOIN categories c
+        ON c.id = t.category_id
+      WHERE t.user_id = #{userId}
+        AND t.deleted_at IS NULL
+        AND TO_CHAR(t.txn_date, 'YYYY-MM') = #{yearMonth}
+      GROUP BY COALESCE(c.name, '未分類')
+      ORDER BY total_amount DESC
+  </select>
+
+</mapper>

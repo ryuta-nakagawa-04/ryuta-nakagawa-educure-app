@@ -1,0 +1,210 @@
+/* ==============================
+   共通（タイポや配色の基本）
+   ============================== */
+:root{
+  --blue:#0ea5e9;
+  --blue-d:#005fa3;
+  --ink:#333;
+  --ink-strong:#111;
+  --card:#fff;
+  --bg:#f9f9f9;
+}
+
+/* 既定の余白リセット */
+*{ box-sizing:border-box; }
+html,body{ margin:0; padding:0; color:var(--ink); }
+
+/* ==============================
+   ログイン/サインアップ画面（デフォルトの body レイアウト）
+   ============================== */
+body{
+  background-color: var(--bg);
+  display:flex;                 /* 画面中央寄せ */
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+}
+
+/* カード本体（ログイン・サインアップで使用） */
+.login-container{
+  background:var(--card);
+  width:400px;
+  padding:2em;
+  border-radius:12px;
+  box-shadow:0 4px 12px rgba(0,0,0,.1);
+}
+
+/* タイトル */
+h1{
+  margin:0 0 1.5em;
+  text-align:center;
+  color:var(--ink);
+}
+
+/* フォームの縦並び */
+form{
+  display:flex;
+  flex-direction:column;
+  gap:.6em;
+}
+
+/* ラベル */
+label{ font-size:.9em; color:var(--ink); }
+
+/* 入力欄（hidden は対象外） */
+.login-container input:not([type="hidden"]){
+  padding:.6em;
+  font-size:1em;
+}
+
+/* フォーカス時 */
+.login-container input:focus{
+  outline:none;
+  border-color:var(--blue);
+  box-shadow:0 0 3px rgba(14,165,233,.4);
+}
+
+/* 「パスワードをお忘れの方はこちら」 */
+.links{
+  width:100%;
+  text-align:right;
+  margin-top:.25em;
+  margin-bottom:.75em;
+}
+.links a{
+  color:var(--ink-strong);
+  text-decoration:none;
+  font-size:.85em;
+}
+.links a:hover,
+.links a:focus{ text-decoration:underline; outline:none; }
+
+/* ボタン基準（ログインボタン） */
+.login-container button{
+  display:block;
+  width:100%;
+  padding:.8em;
+  border:none;
+  border-radius:6px;
+  background:var(--blue);
+  color:#fff;
+  font-size:1em;
+  font-weight:700;
+  cursor:pointer;
+  transition:background-color .2s ease;
+  margin-top:.25em;
+}
+.login-container button:hover{ background:var(--blue-d); }
+
+/* アウトラインボタン（新規登録 / 戻る など） */
+.register-btn,
+.back-btn {
+  display:block;
+  width:100%;
+  padding:.8em;
+  border:2px solid var(--blue);
+  color:var(--blue);
+  background:transparent;
+  border-radius:8px;
+  text-decoration:none;
+  font-size:1em;
+  font-weight:700;
+  text-align:center;
+  transition:background .2s ease, color .2s ease, border-color .2s ease;
+  margin-top:12px;
+}
+.register-btn:hover,
+.register-btn:focus,
+.back-btn:hover,
+.back-btn:focus,
+.link-like:hover,
+.link-like:focus{
+  background:#e0f2fe;
+  outline:none;
+}
+
+/* 区切り線（ログイン画面で使用） */
+.divider{
+  margin:1.5em 0;
+  border-top:1px solid #ddd;
+}
+
+/* ==============================
+   管理者ページ（ユーザー一覧）
+   users.html の <body> に class="page-admin" を付ける
+   ============================== */
+body.page-admin{
+  display:block;          /* 通常フロー */
+  height:auto;
+  background:var(--bg);
+  padding:24px 0;
+}
+
+/* 一覧ページのカードコンテナ */
+.admin-container{
+  max-width:860px;
+  margin:0 auto;
+  background:var(--card);
+  padding:28px;
+  box-shadow:0 4px 12px rgba(0,0,0,.08);
+}
+
+/* 一覧見出しを中央寄せ */
+.admin-container h1{
+  margin:0 0 16px;
+  font-size:1.4rem;
+  color:var(--ink);
+  text-align:center;
+}
+
+/* ===== 最小限の“黒ふちテーブル”指定（方式B） ===== */
+.admin-container table{
+  border-collapse: collapse; /* 既定に近い見え方で綺麗に */
+  margin: 0 auto;            /* テーブル全体を中央寄せ */
+}
+.admin-container table,
+.admin-container th,
+.admin-container td{
+  border:1px solid #000;
+}
+.admin-container th,
+.admin-container td{
+  text-align:center;         /* セル内の文字を中央 */
+  padding: 10px 12px;               
+}
+
+/* 管理者ページ：戻るボタン */
+body.page-admin .back-btn{
+  width: 300px;        
+  max-width: 100%;     /* 画面が狭い場合の保険 */
+  margin: 12px auto 0; /* 中央寄せ */
+}
+
+.admin-container > * + *{
+  margin-top: 30px;
+}
+
+.table-wrap form {
+  margin-top: 30px;
+}
+
+/* ログイン失敗時・ログアウト時のメッセージ */
+.alert{
+  margin: 0 0 1em;
+  text-align: center;
+  font-size: .9em;
+  padding: .6em .8em;
+  border-radius: 6px;
+}
+.alert.error{
+  color: #b00020;
+  background: #fdecea;
+  border: 1px solid #f5c2c7;
+}
+.alert.info{
+  color: #0b5ed7;
+  background: #e7f1ff;
+  border: 1px solid #b6d4fe;
+}
+
+

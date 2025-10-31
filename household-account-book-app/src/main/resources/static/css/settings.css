@@ -1,0 +1,66 @@
+/* 設定画面 専用CSS */
+
+:root{
+  --bg:#f9f9f9;
+  --card:#fff;
+  --ink:#000; /* デフォルトの黒 */
+}
+
+/* ページ全体 */
+html,body{
+  margin:0;
+  padding:0;
+  color:var(--ink);
+  background:var(--bg);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic UI", "Yu Gothic", sans-serif;
+}
+
+/* コンテナ（中央揃え＆黒枠） */
+.settings-wrap{
+  max-width: 600px;
+  margin: 40px auto;
+  background: var(--card);
+  border: 1px solid #000;    /* 黒ボーダー */
+  padding: 24px;
+  text-align: center;         /* 基本は中央揃え */
+}
+
+/* 見出し */
+.settings-wrap h1{
+  margin: 0 0 70px;
+}
+
+/* パスワードを変更しました。のメッセージ */
+.info-message {
+  background-color: #f0f9ff;
+  border: 1px solid #9bd4ff;
+  color: #003a54;
+  padding: 12px 16px;
+  font-size: 1rem;
+  margin: 12px 0 16px;
+}
+
+/* メニューリンク（中央・下線・黒） */
+.menu{
+  display: flex;
+  flex-direction: column;
+  gap: 30px;                  /* 各リンクの間隔 */
+}
+
+.menu a{
+  font-size: 20px;
+  color: inherit;             /* 黒文字 */
+  text-decoration: underline; /* 下線 */
+}
+
+/* 右寄せの戻るリンク */
+.to-dashboard{
+  margin-top: 24px;
+  text-align: right;
+}
+
+.to-dashboard a{
+  font-size: 20px;
+  color: inherit;
+  text-decoration: underline;
+}

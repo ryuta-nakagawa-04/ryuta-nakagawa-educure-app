@@ -1,0 +1,111 @@
+/* ページ全体レイアウト */
+.category-page {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  max-width: 400px;
+  margin: 40px auto;
+  padding: 0 16px;
+  box-sizing: border-box;
+}
+
+.category-page * {
+  box-sizing: border-box;
+}
+
+.page-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 24px;
+  color: #000;
+}
+
+/* フォーム全体 */
+.category-form {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #fff;
+  padding: 20px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ラベル＋入力 */
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-label {
+  font-size: 0.95rem;
+  font-weight: 500;
+  margin-bottom: 6px;
+  color: #000;
+}
+
+.form-input {
+  padding: 10px 12px;
+  border: 1px solid #999;
+  border-radius: 6px;
+  font-size: 1rem;
+  outline: none;
+}
+
+.form-input:focus {
+  border-color: #33aaff;
+  box-shadow: 0 0 0 3px rgba(51,170,255,0.2);
+}
+
+/* エラーメッセージ */
+.error-text {
+  color: #d00000;
+  font-size: 0.8rem;
+  margin-top: 4px;
+}
+
+/* ボタン縦並び */
+.button-col {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+/* 追加する / 削除する / 編集する → 水色背景＋白文字 */
+.btn-primary {
+  display: block;
+  width: 100%;
+  background-color: #33aaff;  /* 水色 */
+  color: #fff;                /* 白文字 */
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 10px 16px;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  filter: brightness(1.05);
+}
+
+/* 設定画面に戻る → 枠だけ水色＋文字も水色 */
+.btn-outline {
+  display: block;
+  width: 100%;
+  background-color: #fff;
+  color: #33aaff;
+  border: 2px solid #33aaff;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 10px 16px;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.btn-outline:hover {
+  background-color: rgba(51,170,255,0.06);
+}

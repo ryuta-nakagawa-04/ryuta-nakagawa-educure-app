@@ -1,0 +1,35 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ja">
+<head>
+  <meta charset="utf-8">
+  <title>設定画面</title>
+  <link rel="stylesheet" th:href="@{/css/settings.css}">
+</head>
+<body>
+  <div class="settings-wrap">
+    <h1>設定画面</h1>
+
+    <!-- 設定画面からパスワードを変更した場合のメッセージ -->
+    <div th:if="${pwdChanged}" class="info-message">
+      パスワードを変更しました。
+    </div>
+
+    <!-- 設定画面からカテゴリを追加・編集・削除した場合のメッセージ -->
+    <div th:if="${flashMessage}" class="info-message">
+      <span th:text="${flashMessage}">メッセージ</span>
+    </div>
+
+    <nav class="menu">
+      <a th:href="@{/users/password-change}">パスワードを変更する</a>
+      <a th:href="@{/categories/new}">カテゴリを追加する</a>
+      <a th:href="@{/categories/delete}">カテゴリを削除する</a>
+      <a th:href="@{/categories/edit}">カテゴリを編集する</a>
+      <a th:href="@{/users/withdraw}">退会する</a>
+    </nav>
+
+    <div class="to-dashboard">
+      <a th:href="@{/dashboard}">ダッシュボードページに戻る</a>
+    </div>
+  </div>
+</body>
+</html>

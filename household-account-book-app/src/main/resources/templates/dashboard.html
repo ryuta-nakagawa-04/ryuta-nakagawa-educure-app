@@ -1,0 +1,102 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ja">
+<head>
+  <meta charset="utf-8">
+  <title>ダッシュボード</title>
+
+  <!-- ダッシュボード用CSS -->
+  <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+
+  <!-- Chart.js（円グラフ用） -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="page-dashboard">
+  <div class="dash-container">
+
+    <h1>ダッシュボードページ</h1>
+
+    <!-- フラッシュメッセージ（例：目標収支を設定しました。など） -->
+    <div th:if="${flashMessage != null and !#strings.isEmpty(flashMessage)}"
+         class="info-message">
+      <span th:text="${flashMessage}">メッセージ</span>
+    </div>
+
+    <!-- 今月の収支 -->
+    <section class="card">
+      <div class="card-title">今月の収支</div>
+      <div class="big-amount"
+           th:text="${summary != null ? summary.net + '円' : '0円'}">0円</div>
+    </section>
+
+    <!-- 目標収支 -->
+    <section class="card center">
+      <div class="card-title">目標収支</div>
+      <div class="big-amount"
+           th:text="${summary != null && summary.targetAmount != null ? summary.targetAmount + '円' : '未設定'}">
+        未設定
+      </div>
+    </section>
+
+    <!-- カテゴリ別円グラフ -->
+    <section class="card center">
+      <div class="card-title">カテゴリ別円グラフ</div>
+
+      <!-- グラフを描く場所 -->
+      <div class="chart-wrapper" style="width:320px; height:320px; margin:0 auto;">
+        <canvas id="catPie" width="320" height="320"></canvas>
+      </div>
+
+      <!-- データがない場合のフォールバック表示（お好みで） -->
+      <div class="no-data"
+           th:if="${categoryLabels == null or #lists.isEmpty(categoryLabels)}"
+           style="margin-top:12px; color:#666; font-size:0.9rem;">
+        データがありません
+      </div>
+    </section>
+
+    <!-- ボタン郡 -->
+    <div class="actions">
+      <a th:href="@{/transactions}" class="btn btn-outline-black">収支一覧画面へ</a>
+      <a th:href="@{/goals}"        class="btn btn-outline-black">目標設定画面へ</a>
+      <a th:href="@{/settings}"     class="btn btn-outline-black">設定画面へ</a>
+    </div>
+
+  </div>
+
+  <script th:inline="javascript">
+  /*<![CDATA[*/
+
+  const labels = /*[[${categoryLabels}]]*/ [];
+  const values = /*[[${categoryValues}]]*/ [];
+
+  console.log("DEBUG labels =", labels);
+  console.log("DEBUG values =", values);
+
+  const ctx = document.getElementById('catPie');
+  console.log("DEBUG ctx =", ctx);
+
+  if (ctx && Array.isArray(labels) && labels.length > 0 &&
+          Array.isArray(values) && values.length === labels.length) {
+
+    new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels: labels,
+        datasets: [{
+          data: values
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false
+      }
+    });
+  } else {
+    console.log("skip draw: no data or no canvas");
+  }
+
+  /*]]>*/
+  </script>
+
+</body>
+</html>
