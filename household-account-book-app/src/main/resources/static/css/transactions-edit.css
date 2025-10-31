@@ -1,3 +1,4 @@
+/* テーマ変数 */
 :root{
   --sky:#0ea5e9;
   --ink:#111;
@@ -7,7 +8,7 @@
 }
 
 /* ページ全体を中央寄せ */
-body.page-edit {
+body.page-edit{
   background: var(--bg);
   margin: 0;
   min-height: 100vh;
@@ -20,12 +21,21 @@ body.page-edit {
 /* カード全体 */
 .form-card{
   width: 400px;
-  max-width: 92vw;
+  max-width: 92vw;         /* 画面が狭いときに縮む */
   padding: 24px;
   background: var(--card);
   border-radius: 12px;
   box-shadow: 0 6px 16px rgba(0,0,0,.08);
-  text-align: center;
+  text-align: center;      /* 見出しやボタンは中央寄せ */
+  overflow-wrap: anywhere; /* 予期せぬ長文でもはみ出さない */
+}
+
+/* ▼フォームカード配下の全ての要素に“はみ出し防止”を強制 */
+.form-card *,
+.form-card *::before,
+.form-card *::after{
+  box-sizing: border-box;
+  max-width: 100%;         /* 画像/長文/フォーム要素が枠外に出ない */
 }
 
 /* タイトル */
@@ -37,7 +47,7 @@ body.page-edit {
 }
 
 /* バリデーションエラーの全体メッセージ */
-.form-errors {
+.form-errors{
   background-color: #fff3f3;
   border: 1px solid #d00000;
   color: #d00000;
@@ -47,6 +57,7 @@ body.page-edit {
   margin-bottom: 16px;
   line-height: 1.4;
   text-align: left;
+  word-break: break-word;
 }
 
 /* フォーム本体 */
@@ -54,37 +65,55 @@ body.page-edit {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  width: 100%;             /* 親いっぱいに広げる */
+  text-align: left;        /* 入力系は左寄せに戻す */
 }
 
-/* 各項目のラベル */
+/* 各項目のラベル（見出し用） */
 .form-label{
   display: block;
   font-size: .95rem;
   font-weight: 500;
   color: #000;
-  text-align: center;
+  text-align: center;      /* ラベルの文字は中央 */
   margin-bottom: 4px;
 }
 
 /* 入力欄（テキスト/数値/日付/セレクト） */
 .form-input{
-  width: 100%;
+  display: block;
+  width: 100%;             /* 横幅は常に枠内で100% */
   padding: 10px 12px;
   border: 1px solid var(--line);
   border-radius: 8px;
   font-size: 1rem;
-  text-align: left;         /* 入力内容は左寄せのまま */
   background: #fff;
   outline: none;
+  text-align: left;
 }
 
+/* ブラウザによって number/date の最小幅が暴れるのを抑制 */
+input[type="number"].form-input,
+input[type="date"].form-input,
+select.form-input{
+  min-width: 0;            /* はみ出し対策：flex 子の縮小を許可 */
+}
+
+/* プレースホルダ長文・入力長文の折り返し保険 */
+.form-input,
+.error-text{
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+/* フォーカス */
 .form-input:focus{
   border-color: var(--sky);
   box-shadow: 0 0 0 3px rgba(14,165,233,.18);
 }
 
 /* フィールドごとのエラー */
-.error-text {
+.error-text{
   color: #d00000;
   font-size: 0.8rem;
   line-height: 1.4;
@@ -94,7 +123,7 @@ body.page-edit {
 }
 
 /* ボタン縦並びコンテナ */
-.button-col {
+.button-col{
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -103,7 +132,7 @@ body.page-edit {
 
 /* ボタン共通 */
 .btn-primary,
-.btn-outline-sky {
+.btn-outline-sky{
   display: block;
   width: 100%;
   border-radius: 8px;

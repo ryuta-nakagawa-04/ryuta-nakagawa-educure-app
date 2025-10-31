@@ -1,3 +1,4 @@
+/* テーマ変数 */
 :root{
   --sky:#0ea5e9;
   --sky-d:#007bc1;
@@ -7,52 +8,7 @@
   --line:#e5e5e5;
 }
 
-/* ラジオボタン部分（区分） */
-.direction-row {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;   /* 左寄せに固定 */
-  gap: 8px;
-  margin-bottom: 4px;
-  text-align: left;          /* 子孫は左揃えに戻す（.form-cardのtext-align: centerを上書き） */
-  width: 100%;
-}
-
-.direction-option {
-  display: inline-flex !important; /* 他のlabel指定をぶっ飛ばす */
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 4px;                        /* ラジオと文字の間 */
-
-  font-size: 0.95rem;
-  font-weight: 500;
-  color: #000;
-  cursor: pointer;
-  line-height: 1.4;
-
-  white-space: nowrap;
-}
-
-.direction-option input[type="radio"] {
-  cursor: pointer;
-  margin: 0;                        /* ブラウザのデフォ余白を消す */
-}
-
-/* ↓ フォーム全体の他スタイルは基本そのままだけど、
-   "全部のlabelを中央揃え" はやめて、
-   見出し用のラベルだけ .form-label クラスで中央揃えにする  */
-
-.form-label {
-  text-align: center;
-  font-size: .95rem;
-  font-weight: 500;
-  color: #000;
-  display: block;
-  margin-bottom: 4px;
-}
-
-/* ページ全体を中央寄せ */
+/* ページ全体（中央寄せ） */
 body.page-new{
   background: var(--bg);
   margin: 0;
@@ -62,15 +18,24 @@ body.page-new{
   color: var(--ink);
 }
 
-/* カード */
+/* カード本体 */
 .form-card{
-  width: 400px;
-  max-width: 92vw;
+  width: 400px;           /* 基本幅 */
+  max-width: 92vw;        /* 画面幅が狭い時は縮む */
   padding: 24px;
   background: var(--card);
   border-radius: 12px;
   box-shadow: 0 6px 16px rgba(0,0,0,.08);
-  text-align: center;           
+  text-align: center;     /* 見出しやボタンなど中心寄せ */
+  overflow-wrap: anywhere;/* 長文でのはみ出し保険 */
+}
+
+/* ▼このカード配下の要素は“境界まで”で幅計算（はみ出し防止の本命） */
+.form-card *,
+.form-card *::before,
+.form-card *::after{
+  box-sizing: border-box;
+  max-width: 100%;        /* 画像や異常な長文でも親を超えない */
 }
 
 /* 見出し */
@@ -79,33 +44,106 @@ body.page-new{
   font-size: 1.4rem;
 }
 
-/* フォーム縦並び */
+/* フォーム全体を縦並びに */
 .form-card form{
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-/* 入力欄（テキスト/数値/日付/セレクト） */
+/* ラベル（見出し用のラベルだけ中央揃えにする） */
+.form-label{
+  text-align: center;
+  font-size: .95rem;
+  font-weight: 500;
+  color: #000;
+  display: block;
+  margin-bottom: 4px;
+}
+
+/* 入力行のまとまり（区分など） */
+.form-group{
+  text-align: left;       /* 中の要素は基本左寄せ */
+}
+
+/* 入力要素（テキスト/数値/日付/セレクト） */
 .form-card input,
-.form-card select{
-  width: 100%;
+.form-card select,
+.form-card textarea,
+.form-card button{
+  display: block;
+  width: 100%;            /* “境界まで”の100%（box-sizingで収まる） */
+}
+
+/* 実際のテキスト入力系のスタイル */
+.form-card input,
+.form-card select,
+.form-card textarea{
   padding: 10px 12px;
   border: 1px solid var(--line);
   border-radius: 8px;
   font-size: 1rem;
-  text-align: left;        
+  text-align: left;       /* 入力テキストは左寄せ */
   background: #fff;
 }
 
+/* フォーカス */
 .form-card input:focus,
-.form-card select:focus{
+.form-card select:focus,
+.form-card textarea:focus{
   outline: none;
   border-color: var(--sky);
   box-shadow: 0 0 0 3px rgba(14,165,233,.18);
 }
 
-/* ボタン（共通） */
+/* エラーテキスト（折り返し保険あり） */
+.error-text{
+  color: #d00000;
+  font-size: .85rem;
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+/* -----------------------------
+   区分（支出/収入）のラジオ一式
+--------------------------------*/
+
+/* 縦に2つ並べる（支出/収入） */
+.direction-row{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* 左寄せ */
+  gap: 8px;
+  margin-bottom: 4px;
+  text-align: left;        /* form-card の中央寄せを上書き */
+  width: 100%;
+}
+
+/* ラジオ + 文字 の1行 */
+.direction-option{
+  display: inline-flex !important; /* 他の label ルールの干渉を避ける */
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 6px;                        /* ラジオと文字の間 */
+  font-size: .95rem;
+  font-weight: 500;
+  color: #000;
+  cursor: pointer;
+  line-height: 1.4;
+  white-space: nowrap;             /* “支 出”等の縦割れ抑止 */
+}
+
+/* ブラウザ既定の余白をリセット */
+.direction-option input[type="radio"]{
+  cursor: pointer;
+  margin: 0;
+}
+
+/* -----------------------------
+   ボタン
+--------------------------------*/
+
 .btn{
   display: block;
   width: 100%;
@@ -118,6 +156,7 @@ body.page-new{
   transition: filter .15s ease, background .15s ease, color .15s ease, border-color .15s ease;
 }
 
+/* 水色背景＋白文字（登録する） */
 .btn-primary{
   background: var(--sky);
   color: #fff;
@@ -126,6 +165,7 @@ body.page-new{
 .btn-primary:hover{ filter: brightness(0.95); }
 .btn-primary:active{ filter: brightness(0.9); }
 
+/* 枠だけ水色（戻る） */
 .btn-outline-sky{
   margin-top: 10px;
   border: 2px solid var(--sky);
