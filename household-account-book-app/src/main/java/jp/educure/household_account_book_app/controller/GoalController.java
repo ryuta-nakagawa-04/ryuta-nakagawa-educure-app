@@ -45,7 +45,7 @@ public class GoalController {
         form.setTargetAmount(currentTarget); // 既存の値を初期表示してあげる
         model.addAttribute("goalForm", form);
 
-        return "goals"; // templates/goals.html
+        return "goals";
     }
 
     // ② 目標の登録・更新（POST /goals）
@@ -71,10 +71,10 @@ public class GoalController {
         // DBに保存 or 更新
         goalService.upsert(userId, form.getYearMonth(), form.getTargetAmount());
 
-        // ★ ダッシュボードに渡したいメッセージをFlashAttributeで積む
+        // ダッシュボードに渡したいメッセージをFlashAttributeで積む
         redirectAttributes.addFlashAttribute("flashMessage", "目標収支を設定しました。");
 
-        // ★ ダッシュボードに戻る（月も維持したいならクエリ付きで戻る）
+        // ダッシュボードに戻る（月も維持したいならクエリ付きで戻る）
         return "redirect:/dashboard?month=" + form.getYearMonth();
     }
 }

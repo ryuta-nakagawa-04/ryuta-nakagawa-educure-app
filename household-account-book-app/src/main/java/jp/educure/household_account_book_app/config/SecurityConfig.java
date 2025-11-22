@@ -63,9 +63,9 @@ public class SecurityConfig {
           )
           .formLogin(login -> login
               .loginPage("/login")                            // ログイン画面のURL
-              .loginProcessingUrl("/login")                   // フォームのPOST先（Securityが処理）
-              .successHandler(successHandler)                 // 成功時に管理者/一般で分岐
-              .failureUrl("/login?error")                     // 失敗時
+              .loginProcessingUrl("/login")          // フォームのPOST先（Securityが処理）
+              .successHandler(successHandler)                           // 成功時に管理者/一般で分岐
+              .failureUrl("/login?error")      // 失敗時
               .permitAll()
           )
           .logout(logout -> logout
@@ -73,7 +73,7 @@ public class SecurityConfig {
               .logoutSuccessUrl("/login?logout")
               .permitAll()
           )
-          .csrf(Customizer.withDefaults());                   // CSRFはデフォルト有効（フォームはトークン埋め込む）
+          .csrf(Customizer.withDefaults());                             // CSRFはデフォルト有効（フォームはトークン埋め込む）
 
         return http.build();
     }
