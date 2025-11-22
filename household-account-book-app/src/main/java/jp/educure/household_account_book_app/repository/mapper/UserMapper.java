@@ -20,10 +20,10 @@ public interface UserMapper {
     List<User> findAllActive();
 
     // user_name で1件（退会者は除外：ログイン不可）
-    User findByUserName(String userName);
+    User findByUserName(@Param("userName") String userName);
 
     // idで1件
-    User findById(Integer id);
+    User findById(@Param("id") Integer id);
 
     // パスワード更新
     void updatePassword(@Param("id") Integer id, @Param("password") String password);
