@@ -53,7 +53,7 @@ public class TransactionController {
 
         model.addAttribute("goalForm", new GoalForm());
 
-        // ★カテゴリごとの合計金額（OUTのみ）
+        // カテゴリごとの合計金額（OUTのみ）
         // Map<カテゴリ名, 合計金額> をサービスからもらってる前提
         var totalsMap = dashboardService.buildCategoryTotals(userId, ym);
 

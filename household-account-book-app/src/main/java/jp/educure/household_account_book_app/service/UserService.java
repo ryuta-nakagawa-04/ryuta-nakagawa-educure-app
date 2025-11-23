@@ -2,6 +2,7 @@ package jp.educure.household_account_book_app.service;
 
 import java.util.List;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +14,7 @@ import jp.educure.household_account_book_app.repository.mapper.UserMapper;
 public class UserService {
 
     private final UserMapper mapper;
+    private final PasswordEncoder encoder; // ★ BCryptのエンコーダをDI
 
     @Transactional
     public void save(User u) {
@@ -23,6 +25,9 @@ public class UserService {
         if (!hasAdmin) {
             u.setAdmin(true);
         }
+
+        // ★ 平文パスワードをBCryptでハッシュ化してから保存
+        u.setPassword(encoder.encode(u.getPassword()));
 
         mapper.insert(u);
     }
